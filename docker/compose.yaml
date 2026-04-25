@@ -1,3 +1,7 @@
+x-common-vars: &ros2-vars
+  env_file: ".env"
+  environment:
+    - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
 services:
   zenoh-bridge:
     build:
@@ -10,6 +14,7 @@ services:
     privileged: true
     network_mode: host
     working_dir: /
+    <<: *ros2-vars
     environment:
       - ROS_LOCALHOST_ONLY=1
       - ROS_DOMAIN_ID=0
@@ -18,5 +23,6 @@ services:
       - /dev:/dev
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - ../config:/config
     command: bash -c "source /opt/ros/humble/setup.bash
-      && zenoh-bridge-ros2dds"
+      && zenoh-bridge-ros2dds -c /config/zenoh_bridge.json5"

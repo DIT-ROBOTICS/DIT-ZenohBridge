@@ -1,0 +1,58 @@
+{
+  // --- 1. Connection Settings ---
+  // Define the endpoint to connect to the Host.
+  // Default Port: 7447
+  /*
+  connect: {
+    endpoints: ["tcp/192.168.13.10:7447"]
+  },
+  */
+
+  plugins: {
+    ros2dds: {
+      // --- 2. Topic Filtering (Allow vs Deny) ---
+      // Note: Only 'allow' OR 'deny' should be defined, not both simultaneously.
+      // Use Regular Expressions (Regex) for matching multiple topics.
+
+      // Define specifically which data is ALLOWED to cross the bridge.
+      allow: {
+        publishers: [
+          "/tf",
+          ".*/pose",
+          "/pantry_status",
+          "/collection_status"
+        ],
+        subscribers: [
+          ".*/cmd_vel"
+        ],
+        service_servers: [],
+        service_clients: [],
+        action_servers: [],
+        action_clients: []
+      },
+
+      // Define specifically which data is DENIED (Blocked).
+      /*
+      deny: {
+        publishers: [],
+        subscribers: [],
+        service_servers: [],
+        service_clients: [],
+        action_servers: [],
+        action_clients: []
+      },
+      */
+
+      // --- 3. Transmission Priority Settings ---
+      // Define priority levels (1-7) for specific topics to optimize latency.
+      // Priority 1 is the highest (Express).
+      /*
+      pub_priorities: [
+        "/scan=1:express", 
+        "/pose=2", 
+        "/rosout=7"
+      ]
+      */
+    }
+  }
+}
